@@ -1,0 +1,63 @@
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+ul {
+  list-style-type: none;
+}
+
+button,
+li,
+input {
+  padding: 0.2em 0.4em;
+}
+
+button,
+input[type=submit] {
+  font-weight: bold;
+  border: 2px solid black;
+}
+
+header {
+  padding: 2rem;
+}
+
+main {
+  display: flex;
+  gap: 4rem;
+  margin: 0 auto;
+  width: fit-content;
+  width: -moz-fit-content;
+
+  .header {
+    display: flex;
+    gap: 1rem;
+    margin-block: 1rem;
+  }
+
+  .scores {
+    border: 2px solid black;
+
+    li:nth-child(even) {
+      background-color: rgb(211, 211, 211);
+    }
+  }
+
+  .add-score form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    input[type=submit] {
+      width: min-content;
+      margin-left: auto;
+    }
+  }
+}
