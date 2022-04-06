@@ -1,5 +1,4 @@
 import {
-  // eslint-disable-next-line import/named
   initializeScoreboard, addToScoreBoard, setDisabledState, clearInput,
 } from './functions.js';
 
