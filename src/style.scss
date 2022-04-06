@@ -23,6 +23,10 @@ button,
 input[type=submit] {
   font-weight: bold;
   border: 2px solid black;
+
+  &:disabled {
+    border: 2px solid rgb(160, 160, 160);
+  }
 }
 
 header {
@@ -42,7 +46,7 @@ main {
     margin-block: 1rem;
   }
 
-  .scores {
+  #scoreboard {
     border: 2px solid black;
 
     li:nth-child(even) {
