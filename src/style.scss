@@ -1,3 +1,5 @@
+@use 'utils';
+
 *,
 *::after,
 *::before {
@@ -5,8 +7,52 @@
   margin: 0;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Fascinate&family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Nova+Flat');
+
+$orange: rgba(233, 164, 16, 0.747);
+$black: rgb(16, 17, 16);
+$white: #fff;
+$light-purple: #452b70;
+$bg-clr: #5de3e7;
+
+::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: $bg-clr;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: darken($orange, 20%);
+  border-radius: 0.4rem;
+  border: 0.2rem solid $bg-clr;
+  box-sizing: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: $orange;
+}
+
+html {
+  font-size: 18px;
+
+  @include utils.on-mobile {
+    font-size: 12px;
+  }
+}
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
+  background-color: $bg-clr;
+  color: $orange;
+}
+
+h1 {
+  font-family: 'Nova Flat', cursive;
+  text-transform: uppercase;
+  font-size: 2.5rem;
+  letter-spacing: 0.2em;
 }
 
 ul {
@@ -16,52 +62,273 @@ ul {
 button,
 li,
 input {
-  padding: 0.2em 0.4em;
+  padding: 0.6em 0.8em;
+}
+
+input:not([type=submit]) {
+  background-color: rgba($black, 0.4);
+  border-radius: 0.4em;
+  border: none;
+  font-size: 1rem;
+  color: $orange;
+  transition: background-color 420ms ease-out;
+  transition-property: background-color, color;
+
+  &::placeholder {
+    color: rgba($orange, 0.6);
+  }
+
+  &:focus {
+    outline: none;
+    background-color: rgba($black, 0.6);
+  }
+}
+
+label {
+  position: relative;
+  padding-top: 20px;
+
+  span {
+    position: absolute;
+    top: 0;
+    font-size: 0.8rem;
+    content: "username";
+  }
 }
 
 button,
 input[type=submit] {
   font-weight: bold;
-  border: 2px solid black;
+  border: none;
+  font-size: 0.8rem;
+  border-radius: 0.4em;
+  padding-block: 0.4em;
+  padding-inline-end: 1em;
+  background-color: rgb(53, 53, 53);
+  color: $orange;
+  // box-shadow: 0 1px 1px 1px rgba($black, 0.3);
+  cursor: pointer;
+  transition-duration: 120ms;
+  transition-property: background-color, transform;
+  box-shadow:
+    0 1px 1px rgba($black, 0.1),
+    0 2px 2px rgba($black, 0.1),
+    0 4px 4px rgba($black, 0.1),
+    0 8px 8px rgba($black, 0.1),
+    0 16px 16px rgba($black, 0.1);
+
+  &:hover {
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 
   &:disabled {
     border: 2px solid rgb(160, 160, 160);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $orange;
   }
 }
 
 header {
   padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  margin-bottom: 2rem;
 }
 
 main {
   display: flex;
-  gap: 4rem;
   margin: 0 auto;
   width: fit-content;
   width: -moz-fit-content;
+  border-radius: 1.4rem;
+  box-shadow:
+    0 2px 2px rgba(0, 0, 0, 0.2),
+    0 4px 4px rgba(0, 0, 0, 0.1),
+    0 8px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background-color: rgb(63, 63, 63);
+
+  @include utils.on-mobile {
+    flex-direction: column;
+  }
 
   .header {
     display: flex;
     gap: 1rem;
-    margin-block: 1rem;
-  }
+    margin-bottom: 1rem;
 
-  #scoreboard {
-    border: 2px solid black;
-
-    li:nth-child(even) {
-      background-color: rgb(211, 211, 211);
+    h2 {
+      font-family: 'Fascinate', cursive;
     }
   }
 
-  .add-score form {
+  section {
+    padding-block: 2rem;
+  }
+
+  section.leaderboard {
+    padding-left: 4rem;
+    padding-right: 6rem;
+    height: 50vh;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
 
-    input[type=submit] {
-      width: min-content;
-      margin-left: auto;
+    @include utils.on-mobile {
+      padding-inline: 2rem;
+      height: 100%;
+    }
+
+    #scoreboard {
+      border-radius: 0.4rem;
+      box-shadow: 0 1px 2px rgba(125, 188, 240, 0.5);
+      overflow: auto;
+      background-color: rgb(48, 48, 48);
+      height: 100%;
+
+      .content li.score-card {
+        &:nth-child(odd) {
+          background-color: rgb(43, 43, 43);
+        }
+
+        &:nth-child(even) {
+          background-color: rgb(48, 48, 48);
+        }
+
+        .details {
+          display: flex;
+          justify-content: space-between;
+          padding: 0;
+          position: relative;
+        }
+
+        .progress {
+          $h: 0.4rem;
+
+          background-color: $orange;
+          height: $h;
+          width: 0%;
+          border-radius: $h / 2;
+          transition: all 800ms;
+          margin-block: 0.2rem;
+
+          &.active {
+            background: crimson;
+          }
+        }
+      }
+
+      position: relative;
+
+      .overlay {
+        // background-color: yellowgreen;
+        position: absolute;
+        inset: 0;
+        display: none;
+        transition: all 1000ms ease-in-out;
+
+        &-content {
+          display: flex;
+          width: 100%;
+          height: 100%;
+          position: relative;
+
+          .boxes {
+            width: 20%;
+            height: 30%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            // background-color: red;
+            display: flex;
+            gap: 5%;
+            align-items: center;
+
+            .box {
+              opacity: 0.5;
+              background-color: royalblue;
+              width: calc(100% / 3);
+              border-radius: 100vw;
+              height: 50%;
+              animation: scaleY 1000ms infinite ease-in-out;
+            }
+
+            $number: 4;
+
+            @for $n from 1 through $number {
+              .box:nth-child(#{$n}) {
+                background-color: rgba($orange, max(0.4, $n / $number));
+                animation-delay: $n * -120ms;
+              }
+            }
+
+            @keyframes scaleY {
+              0% {
+                height: 30%;
+              }
+
+              50% {
+                height: 100%;
+              }
+
+              100% {
+                height: 30%;
+              }
+            }
+          }
+        }
+      }
+
+      .overlay.active {
+        display: block;
+        opacity: 1;
+      }
+    }
+  }
+
+  section.add-score {
+    background: linear-gradient(45deg, rgb(44, 241, 255), rgb(223, 63, 71));
+    padding-inline: 4rem;
+
+    @include utils.on-mobile {
+      background: transparent;
+      padding-inline: 2rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+
+      label:focus-within span {
+        transition: all 200ms ease-out;
+        transform: translateY(-4px);
+      }
+
+      input:not([type=submit]) {
+        @include utils.on-mobile {
+          width: 100%;
+          box-sizing: border-box;
+        }
+      }
+
+      input[type=submit] {
+        width: min-content;
+        margin-left: auto;
+        padding: 0.8em 1.4em;
+        margin-top: 2rem;
+
+        @include utils.on-mobile {
+          margin-inline: auto;
+        }
+      }
     }
   }
 }

@@ -1,43 +1,50 @@
 import { getScores, addScore } from './app-api.js';
+import initialHTML from './content.js';
+import { showOverlay, hideOverlay } from './overlay.js';
 
 export const initializePageHTML = () => {
-  const initialHTML = `
-  <header>
-    <h1>Leaderboard</h1>
-  </header>
-  <main>
-    <section class="leaderboard">
-      <div class="header">
-        <h2>Recent scores</h2>
-        <button id="refresh-btn" type="button">Refresh</button>
-      </div>
-      <ul id="scoreboard">
-      </ul>
-    </section>
-    <section class="add-score">
-      <div class="header">
-        <h2>Add your score</h2>
-      </div>
-      <form action="#">
-        <input type="text" name="name" id="name" placeholder="Your name" required>
-        <input type="number" name="score" id="score" placeholder="Your score" required>
-        <input type="submit" value="Submit">
-      </form>
-    </section>
-  </main>
-  `;
   document.body.innerHTML = initialHTML;
+};
+
+export const createScoreCardElement = (user, score) => {
+  const scoreLi = document.createElement('li');
+
+  const innerHTML = `
+    <div>
+      <div class="details">
+        <span class="name">${user}</span>
+        <span class="name">${score}</span>
+      </div>
+      <div class="progress"></div>
+    </div>
+  `;
+
+  scoreLi.classList.add('score-card');
+  // scoreLi.classList.add('active');
+  scoreLi.innerHTML = innerHTML;
+  return scoreLi;
 };
 
 export const initializeScoreboard = async () => {
   const scoreboard = document.getElementById('scoreboard');
+  showOverlay(scoreboard);
+  const scoreboardContent = scoreboard.querySelector('.content');
+  scoreboardContent.innerHTML = '';
   const scores = await getScores();
-  scoreboard.innerHTML = '';
+  await new Promise((resolve) => setTimeout(resolve, 1200));
+  scores.result.sort((a, b) => b.score - a.score);
+
+  const maxScore = scores.result[0].score;
+
   scores.result.forEach(({ user, score }) => {
-    const scoreLi = document.createElement('li');
-    scoreLi.textContent = `${user}: ${score}`;
-    scoreboard.appendChild(scoreLi);
+    const scoreCard = createScoreCardElement(user, score);
+    scoreboardContent.appendChild(scoreCard);
+    scoreboardContent.getBoundingClientRect(); // NOTE: neccessary for transition to work
+
+    scoreCard.querySelector('.progress').style.width = `${(score / maxScore) * 100}%`;
+    scoreCard.querySelector('.progress').classList.add('active');
   });
+  hideOverlay(scoreboard);
 };
 
 export const addToScoreBoard = async (usernameValue, scoreValue) => {
