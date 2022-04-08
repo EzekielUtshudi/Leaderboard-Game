@@ -1,0 +1,6 @@
+
+@mixin on-mobile {
+  @media screen and (max-width: 900px) {
+    @content;
+  }
+}

@@ -4,7 +4,7 @@
 
 >Leaderboard-Game
 
-![screenshot Image](./img/Screenshot-pic.jpeg)
+![screenshot Image](./img/leaderbord-preview.jpeg)
 The Leaderboard-Game is a game board that displays scores from different players and you also have the addition feature of adding a score into the leaderboard.
 
 
@@ -15,7 +15,7 @@ The Leaderboard-Game is a game board that displays scores from different players
 
 ## Live Demo (if available)
 
-[To-Do-list]()
+[Leaderboard-Game]()
 
 ## Getting Started
 
